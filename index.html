@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>&lt;model-viewer&gt; template</title>
+    <meta charset="utf-8">
+    <meta name="description" content="&lt;model-viewer&gt; template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" href="./styles.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <!-- <model-viewer> HTML element -->
+    <model-viewer src="test_animation_ver2024_250411_Xform.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1">
+      <button class="Hotspot" slot="hotspot-2" data-surface="1 0 6 0 12 0.447 0.119 0.435" data-visibility-attribute="visible">
+          <div class="HotspotAnnotation">open</div>
+      </button>
+      <div class="progress-bar hide" slot="progress-bar">
+          <div class="update-bar"></div>
+      </div>
+      <button slot="ar-button" id="ar-button">
+          View in your space
+      </button>
+      <div id="ar-prompt">
+          <img src="ar_hand_prompt.png">
+      </div>
+    </model-viewer>  
+    <script src="script.js"></script>
+    <!-- Loads <model-viewer> for browsers: -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+  </body>
+
+
+<html>
+    <model-viewer
+        camera-controls
+        touch-action="pan-y"
+        animation-name="open"
+        src = "test_animation_ver2024_250411_Xform.glb"
+    >
+    <input class="slider-animation" type="range" min="0" max="60" step="1" value="0">
+
+    </model-viewer>
+
+    <script type="module">
+        // Get references to the model-viewer and slider elements
+        const modelViewer = document.querySelector("model-viewer");
+        const slider = document.querySelector(".slider-animation");
+
+        // Function to update the animation progress based on the slider's value
+        slider.addEventListener("input", () => {
+            const progress = slider.value / 100; // Convert slider value (0-100) to progress (0-1)
+            modelViewer.currentTime = progress * modelViewer.duration; // Set current time based on slider
+        });
+    
+        // Update slider to match animation progress when the animation loops
+        modelViewer.addEventListener("frameupdate", () => {
+            const progress = (modelViewer.currentTime / modelViewer.duration) * 100;
+            slider.value = progress;
+        });
+
+    </script>
+    <script type="module" src="https://modelviewer.dev/node_modules/@google/model-viewer/dist/model-viewer.min.js"></script>
+</html>
